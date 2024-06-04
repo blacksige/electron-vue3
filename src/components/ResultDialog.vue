@@ -5,7 +5,7 @@
 <template>
     <div class="result-dialog">
         <el-dialog v-model="dialogVisible" title="历史记录" width="650">
-            <el-table :data="gridData">
+            <el-table :data="gridData" :loading="tableLoading">
                 <el-table-column property="index" label="Index" width="120" />
                 <el-table-column property="name" label="Name" width="300" />
                 <el-table-column property="day" label="Day" width="180" />
@@ -26,33 +26,34 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import dayjs from 'dayjs';
+import history from "@/api/history.js";
 
 const emit = defineEmits(['getValue']);
 const dialogVisible = ref(false);
+const tableLoading = ref(false);
+let gridData = null;
 
 const showDialog = () => {
     dialogVisible.value = true;
-    gridData = reactive(initResultName());
-}
-const closeDialog = () => {
-    dialogVisible.value = false;
-}
-const initResultName = () => {
-    const resultNames = JSON.parse(sessionStorage.getItem('resultNames')) || [];
-    return resultNames.map((item, index) => {
-        return {
-            index: index + 1,
-            name: item,
-            day: dayjs().format('YYYY/MM/DD')
-        }
+    tableLoading.value = false;
+    history.queryHistory({}).then(res => {
+        gridData = reactive(res.data);
+        console.log(gridData);
+    }).finally(() => {
+        tableLoading.value = true
     });
 }
-let gridData = reactive(initResultName());
+
+const closeDialog = () => {
+    gridData = [];
+    dialogVisible.value = false;
+}
+
 const resetDate = () => {
-    sessionStorage.removeItem('resultNames');
     gridData = [];
     closeDialog();
 }
+
 defineExpose({ showDialog })
+
 </script>

@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts" setup>
-import { Options, Vue } from 'vue-class-component';
 import ButtonGroup from "@/components/ButtonGroup";
 import Prize from "@/components/Prize.vue";
 import DataDialog from "@/components/DataDialog.vue";
 import ResultDialog from "@/components/ResultDialog.vue";
+import history from "@/api/history.js";
 import { ref, watch } from 'vue';
-import { ElMessageBox } from 'element-plus';
+import { ElMessageBox, dayjs } from 'element-plus';
 import type { Action } from 'element-plus'
 
 const isShowBtn = ref(false);
@@ -66,9 +66,12 @@ const showResult = () => {
   ElMessageBox.alert(name.value, '恭喜！', {
     confirmButtonText: 'OK',
     callback: (action: Action) => {
-      const resultNames: string[] = JSON.parse(sessionStorage.getItem('resultNames')) || [];
-      resultNames.push(name.value);
-      sessionStorage.setItem('resultNames', JSON.stringify(resultNames))
+      history.setHistory({
+        name: name.value,
+        day: dayjs().format("YYYY/MM/DD")
+      }).then(res => () => {
+        console.log(res);
+      })
     },
   })
 }

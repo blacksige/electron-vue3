@@ -1,5 +1,4 @@
 import axios from "axios";
-import { baseURL, timeout } from "./config";
 import { ElMessage } from "element-plus";
 console.log(ElMessage);
 // 请求数据体的head
@@ -11,8 +10,8 @@ console.log(ElMessage);
 
 // 实例
 const Axios = axios.create({
-  baseURL,
-  timeout, // 请求超时时间
+  baseURL: '/nodeapp',
+  timeout: 30000, // 请求超时时间
   withCredentials: true,
 });
 
