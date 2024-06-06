@@ -4,7 +4,7 @@
 
 <template>
     <div class="data-dialog">
-        <el-dialog v-model="dialogVisible" title="信息录入" width="500" :close-on-click-modal="false">
+        <el-dialog v-model="dialogVisible" title="信息录入" width="500" :close-on-click-modal="false" v-loading="loading">
             <el-alert title="注意：每条数据以回车结束" type="warning" show-icon style="margin-bottom: 12px;" :closable="false" />
             <el-input v-model="textarea" style="width: 100%" placeholder="Please input" type="textarea"
                 :autosize="{ minRows: 10, maxRows: 20 }" />
@@ -15,7 +15,7 @@
                     <el-button type="primary" @click="getValue">
                         确认
                     </el-button>
-                     <el-button @click="closeDialog">取消</el-button>
+                    <el-button @click="closeDialog">取消</el-button>
                 </div>
             </template>
         </el-dialog>
@@ -23,21 +23,28 @@
 </template>
 
 <script lang="ts" setup>
+import enterdata from "@/api/enterdata";
 import { ref } from 'vue';
 
 const emit = defineEmits(['getValue']);
 const dialogVisible = ref(false);
+const loading = ref(false)
 const textarea = ref('')
 
 const showDialog = () => {
-    const nameItem = JSON.parse(localStorage.getItem('nameItem'));
-    if (nameItem) {
-        textarea.value = nameItem;
-    }
     dialogVisible.value = true;
+    loading.value = true;
+    enterdata.queryEnterData({}).then((res) => {
+        if (res.code === 200) {
+            textarea.value = res.data.textarea;
+        }
+    }).finally(() => {
+        loading.value = false
+    })
 }
 const closeDialog = () => {
     dialogVisible.value = false;
+    textarea.value = '';
 }
 const getValue = () => {
     try {
@@ -60,10 +67,20 @@ const getValue = () => {
 }
 const setValue = (flag: string) => {
     if (flag === '0') {
-        localStorage.setItem('nameItem', JSON.stringify(textarea.value))
+        enterdata.setEnterData({
+            textarea: textarea.value
+        }).then((res) => {
+            if (res.code === 200) {
+                console.log(res.msg);
+            }
+        })
     } else {
-        localStorage.removeItem('nameItem');
         textarea.value = '';
+        enterdata.deleteEnterData({}).then((res) => {
+            if (res.code === 200) {
+                console.log(res.msg);
+            }
+        })
     }
 }
 

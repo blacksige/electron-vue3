@@ -4,7 +4,7 @@ module.exports = defineConfig({
   publicPath: './',
   pluginOptions: {
     electronBuilder: {
-      customFileProtocol: './'
+      customFileProtocol: './',
     }
   },
   chainWebpack: config => {

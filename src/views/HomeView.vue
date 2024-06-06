@@ -5,7 +5,7 @@
       <div class="result">
         <ElButton plain v-if="isShowBtn && name">{{ name }}</ElButton>
       </div>
-      <ElButton class="button" v-if="isShowBtn" @click="start" :disabled="!!name">start</ElButton>
+      <ElButton class="button" v-if="isShowBtn" @click="start" :disabled="btnDisabled">{{ name ? 'restart' : 'start' }}</ElButton>
     </div>
     <ButtonGroup @event="eventEmit" />
   </div>
@@ -24,6 +24,7 @@ import { ElMessageBox, dayjs } from 'element-plus';
 import type { Action } from 'element-plus'
 
 const isShowBtn = ref(false);
+const btnDisabled = ref(false);
 const name = ref('');
 const dataDialog = ref();
 const resultDialog = ref();
@@ -49,11 +50,16 @@ const getNames = (text) => {
   }
 }
 const start = () => {
+  if (textList.value.length <= 0) {
+    return;
+  }
   let randomIndex: number = 0;
   let time = Math.floor(Math.random() * (20 - 10) + 10);
+  btnDisabled.value = true;
   let timer = setInterval(() => {
     if (time === 0) {
       clearInterval(timer);
+      btnDisabled.value = false;
       showResult();
     } else {
       randomIndex = Math.floor(Math.random() * textList.value.length);

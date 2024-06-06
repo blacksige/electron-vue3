@@ -12,7 +12,7 @@
             </el-table>
             <template #footer>
                 <div class="dialog-footer">
-                    <el-button type="info" @click="resetDate">
+                    <el-button type="info" @click="resetData">
                         重置
                     </el-button>
                     <el-button type="primary" @click="closeDialog">
@@ -37,7 +37,7 @@ const showDialog = () => {
     dialogVisible.value = true;
     tableLoading.value = false;
     history.queryHistory({}).then(res => {
-        gridData = reactive(res.data);
+        gridData = reactive(initResultData(res.data));
         console.log(gridData);
     }).finally(() => {
         tableLoading.value = true
@@ -49,9 +49,22 @@ const closeDialog = () => {
     dialogVisible.value = false;
 }
 
-const resetDate = () => {
-    gridData = [];
+const resetData = () => {
     closeDialog();
+    history.deleteHistoryData({}).then((res) => {
+        if (res.code === 200) {
+            console.log(res.msg);
+        }
+    })
+}
+
+const initResultData = (data: any) => {
+    return data.map((item, index) => {
+        return {
+            index: index + 1,
+            ...item
+        }
+    })
 }
 
 defineExpose({ showDialog })

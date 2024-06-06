@@ -33,8 +33,9 @@ app.listen(3000, () => {
 })
 
 app.get('/history/getHistory', (req, res) => {
+  const id = utils.getIpAddress();
   // 查询语句 data 得到的是一个数组，增删改得到的是受影响的行数
-  conn.query('select * from history where id = ?', [utils.getIpAddress()], (err, data) => {
+  conn.query('select * from history where id = ?', [id], (err, data) => {
     if (err) return console.log(err.message); // 连接失败
     // if (data.length === 0) return console.log('数据为空'); // 数据长度为0 则没有获取到数据
     // 否则获取成功，将结果返回给客户端res.send
@@ -48,9 +49,9 @@ app.get('/history/getHistory', (req, res) => {
 
 // POST 请求示例：插入数据
 app.post('/history/setHistory', (req, res) => {
-  console.log(req.body);
   const { name, day } = req.body; // 从请求的 body 中获取要插入的数据
   const id = utils.getIpAddress();
+  console.log(req.body, id);
   conn.query('INSERT INTO history (id, name, day) VALUES (?, ?, ?)', [id, name, day], (error, results) => {
     if (error) {
       res.status(500).json({ message: 'Error inserting data' });
@@ -63,20 +64,65 @@ app.post('/history/setHistory', (req, res) => {
   });
 });
 
-//批量插入数据
-
-
-
 app.get('/enterdata/getAllData', (req, res) => {
+  const id = utils.getIpAddress();
   // 查询语句 data 得到的是一个数组，增删改得到的是受影响的行数
-  conn.query('select * from enterdata where id = ?', [utils.getIpAddress()], (err, data) => {
+  conn.query('select * from enterdata where id = ?', [id], (err, data) => {
     if (err) return console.log(err.message); // 连接失败
     // if (data.length === 0) return console.log('数据为空'); // 数据长度为0 则没有获取到数据
     // 否则获取成功，将结果返回给客户端res.send
     res.send({
       code: 200,
       msg: '数据获取成功',
-      data
+      data: data[0] || ''
     })
   })
 })
+
+//插入数据
+app.post('/enterdata/setAllData', (req, res) => {
+  const { textarea } = req.body; // 从请求的 body 中获取要更新的数据
+  const id = utils.getIpAddress();
+  conn.query(`INSERT INTO enterdata (id, textarea) VALUES (?, ?) ON DUPLICATE KEY UPDATE id = ?, textarea = ?`, [id, textarea, id, textarea], (error, results) => {
+    if(error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error updating data' });
+      return;
+    }
+    res.send({
+      code: 200,
+      msg: '数据更新成功'
+    });
+  });
+});
+
+// 删除数据
+app.post('/enterdata/deleteData', (req, res) => {
+  const id = utils.getIpAddress();
+  conn.query('DELETE FROM enterdata WHERE id = ?', [id], (error, results) => {
+    if (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error delete data' });
+      return;
+    }
+    res.send({
+      code: 200,
+      msg: '数据删除成功'
+    });
+  });
+});
+
+app.post('/history/deleteData', (req, res) => {
+  const id = utils.getIpAddress();
+  conn.query('DELETE FROM history WHERE id = ?', [id], (error, results) => {
+    if (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Error delete data' });
+      return;
+    }
+    res.send({
+      code: 200,
+      msg: '数据删除成功'
+    });
+  });
+});

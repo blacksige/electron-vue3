@@ -44,7 +44,7 @@ Axios.interceptors.response.use(
     if (res.data && res.data.code !== undefined) {
       if (res.data.code.toString() === "200") {
         // TODO 此处可对响应内容进行一些通用处理...
-
+        ElMessage.success(res.data.msg);
         return res.data;
       } else {
         // 业务处理失败，此处可以进行一些通用错误处理，或者直接抛出api调用处的catch处理

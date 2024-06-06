@@ -1,10 +1,10 @@
 import request from './request'
 
 
-const prePath = '/history';
+const prePath = '/enterdata';
 
-const queryHistory = (params) => {
-    const path = `${prePath}/getHistory`;
+const queryEnterData = (params) => {
+    const path = `${prePath}/getAllData`;
     return request(
         {
             url: path,
@@ -14,8 +14,8 @@ const queryHistory = (params) => {
     )
 }
 
-const setHistory = (data) => {
-    const path = `${prePath}/setHistory`;
+const setEnterData = (data) => {
+    const path = `${prePath}/setAllData`;
     return request(
         {
             url: path,
@@ -25,7 +25,7 @@ const setHistory = (data) => {
     )
 }
 
-const deleteHistoryData = (data) => {
+const deleteEnterData = (data) => {
     const path = `${prePath}/deleteData`;
     return request(
         {
@@ -36,4 +36,4 @@ const deleteHistoryData = (data) => {
     )
 }
 
-export default { queryHistory, setHistory, deleteHistoryData }
+export default { queryEnterData, setEnterData, deleteEnterData }
