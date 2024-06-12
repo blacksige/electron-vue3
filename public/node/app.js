@@ -12,10 +12,10 @@ app.use(bodyParser.json())
 // 创建数据库连接 填入数据库信息 
 //填自己数据库的信息!!!!!!!!!!!
 const conn = mysql.createConnection({
-  user: 'root',          //用户名
+  user: 'blackSige',          //用户名
   password: '12345678',	//密码
   host: '8.140.62.241',		//主机（默认都是local host）
-  database: 'testdata',       //数据库名
+  database: 'blacksige',       //数据库名
   port: '3306',
   useConnectionPooling: true
 })
