@@ -1,5 +1,5 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 
@@ -7,7 +7,12 @@
 import "./style/reset.less";
 </script>
 
+<!-- <style lang="less" src="./style/reset.less"></style> -->
+<!-- <style lang="less" src="./style/mobile.less"></style> -->
+
 <style lang="less">
+@import url(./style/mobile.less) (max-width: 480px);
+
 #app {
   width: 100%;
   height: 100%;
