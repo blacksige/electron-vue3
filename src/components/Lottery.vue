@@ -18,13 +18,13 @@ const lotteryStyle = computed(() => {
 });
 
 // 随机排序函数
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+// function shuffleArray(arr) {
+//   for (let i = arr.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [arr[i], arr[j]] = [arr[j], arr[i]];
+//   }
+//   return arr;
+// }
 
 onMounted(() => {
   const list = props.textList.map((item) => {
@@ -32,16 +32,16 @@ onMounted(() => {
       label: item
     };
   });
-
+  const x = Math.floor(Math.random() * 4)
   const oLottery = new LotteryList({
     element: ".lottery",
-    list: shuffleArray(list),
+    list,
     btnText: "开始",
     onend: (e) => {
       emit("showResult", e.label);
     },
     onsubmit: () => {
-      oLottery.go(2);
+      oLottery.go(x);
     }
   });
 });

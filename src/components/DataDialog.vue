@@ -73,7 +73,7 @@ const getValue = () => {
     let match;
     const result = [];
 
-    while (textarea.value && (match = regex.exec(textarea.value)) !== null) {
+    while (textarea.value && (match = regex.exec(textarea.value))) {
       result.push(match[1]);
     }
 
