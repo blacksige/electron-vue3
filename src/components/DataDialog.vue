@@ -8,7 +8,7 @@
     <el-dialog
       v-model="dialogVisible"
       title="信息录入"
-      :width="!minSize ? '90%' : '650'"
+      :width="minSize ? '90%' : '650'"
       :close-on-click-modal="false"
       v-loading="loading"
     >

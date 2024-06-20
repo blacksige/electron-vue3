@@ -7486,6 +7486,11 @@ latest-version@^5.1.0:
   dependencies:
     package-json "^6.3.0"
 
+lattice-lottery-new@^1.0.0-2:
+  version "1.0.0-2"
+  resolved "https://registry.npmjs.org/lattice-lottery-new/-/lattice-lottery-new-1.0.0-2.tgz"
+  integrity sha512-VLtzpYDADJNDou9Wg87BNzDmrNul/4HK8egROM2sXwBiY5GXK5ulNXoELx1tlSpa/EmbauoXvkSgrccH3CGjsw==
+
 launch-editor-middleware@^2.2.1:
   version "2.6.1"
   resolved "https://registry.npmmirror.com/launch-editor-middleware/-/launch-editor-middleware-2.6.1.tgz"

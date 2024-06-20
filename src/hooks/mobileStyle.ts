@@ -15,6 +15,8 @@ export const HomeHooks = () => {
         console.log("窗口高度：" + windowHeight);
         if (windowWidth <= 480) {
             minSize.value = true;
+        } else {
+            minSize.value = false;
         }
         if (windowHeight < 600 || windowWidth < 800) {
             prizeSize.width = '120px';

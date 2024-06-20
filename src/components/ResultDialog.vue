@@ -64,7 +64,7 @@ const resetData = () => {
   });
 };
 
-const initResultData = (data: any) => {
+const initResultData = (data: any = []) => {
   return data.map((item, index) => {
     return {
       index: index + 1,

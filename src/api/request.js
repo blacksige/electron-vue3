@@ -62,9 +62,9 @@ Axios.interceptors.response.use(
   },
   (error) => {
     // TODO 此处可以对响应异常进行一些通用处理，一般是http响应码403、404、500
-    console.error(error);
-
-    return Promise.reject(error);
+    ElMessage.error(error);
+    console.error(error)
+    return {}
   }
 );
 

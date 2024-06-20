@@ -2,10 +2,8 @@
   <div class="home">
     <div class="content">
       <Prize />
-      <div class="result">
-        <ElButton plain v-if="isShowBtn && name">{{ name }}</ElButton>
-      </div>
-      <ElButton class="button" v-if="isShowBtn" @click="start" :disabled="btnDisabled">{{ name ? 'restart' : 'start' }}</ElButton>
+      <ElButton class="button" v-if="isShowBtn" @click="start">再来一次</ElButton>
+      <Lottery v-if="isShowLottery" :textList="textList" @showResult="showResult"/>
     </div>
     <ButtonGroup @event="eventEmit" />
   </div>
@@ -16,6 +14,7 @@
 <script lang="ts" setup>
 import ButtonGroup from "@/components/ButtonGroup";
 import Prize from "@/components/Prize.vue";
+import Lottery from "@/components/Lottery.vue";
 import DataDialog from "@/components/DataDialog.vue";
 import ResultDialog from "@/components/ResultDialog.vue";
 import history from "@/api/history.js";
@@ -23,12 +22,11 @@ import { ref, watch } from 'vue';
 import { ElMessageBox, dayjs } from 'element-plus';
 import type { Action } from 'element-plus'
 
-const isShowBtn = ref(false);
-const btnDisabled = ref(false);
-const name = ref('');
+const isShowLottery = ref(false);
 const dataDialog = ref();
 const resultDialog = ref();
 const textList = ref([]);
+const isShowBtn = ref(false)
 
 const eventEmit = (num) => {
   if (num === '1') {
@@ -36,44 +34,34 @@ const eventEmit = (num) => {
   } else if (num === '2') {
     resultDialog.value.showDialog();
   } else if (num === '3') {
-    isShowBtn.value = false;
-    name.value = ''
+    isShowLottery.value = false;
   }
 }
+
 const getNames = (text) => {
   console.log(text);
   textList.value = text;
   if (textList.value.length > 0) {
-    isShowBtn.value = true;
+    isShowLottery.value = true;
   } else {
-    isShowBtn.value = false;
+    isShowLottery.value = false;
   }
 }
+
 const start = () => {
-  if (textList.value.length <= 0) {
-    return;
+  if (textList.value.length > 0) {
+    isShowLottery.value = true;
   }
-  let randomIndex: number = 0;
-  let time = Math.floor(Math.random() * (20 - 10) + 10);
-  btnDisabled.value = true;
-  let timer = setInterval(() => {
-    if (time === 0) {
-      clearInterval(timer);
-      btnDisabled.value = false;
-      showResult();
-    } else {
-      randomIndex = Math.floor(Math.random() * textList.value.length);
-      name.value = textList.value[randomIndex];
-      time--;
-    }
-  }, 200);
 }
-const showResult = () => {
-  ElMessageBox.alert(name.value, '恭喜！', {
+
+const showResult = (name) => {
+  isShowBtn.value = !!name;
+  ElMessageBox.alert(name, '恭喜！', {
     confirmButtonText: 'OK',
     callback: (action: Action) => {
+      isShowLottery.value = false
       history.setHistory({
-        name: name.value,
+        name: name,
         day: dayjs().format("YYYY/MM/DD")
       }).then(res => () => {
         console.log(res);
