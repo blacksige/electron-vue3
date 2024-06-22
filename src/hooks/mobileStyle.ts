@@ -27,10 +27,11 @@ export const HomeHooks = () => {
         }
     }
     onMounted(() => {
+        resizeEvent();
         window.addEventListener('resize', resizeEvent);
     })
     onUnmounted(() => {
-        window.removeEventListener('resize', resizeEvent)
+        window.removeEventListener('resize', resizeEvent);
     })
 
     return { prizeSize, minSize }

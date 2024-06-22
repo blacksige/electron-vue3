@@ -32,12 +32,12 @@ onMounted(() => {
       label: item
     };
   });
-  const x = Math.floor(Math.random() * 4)
+  const x = Math.floor(Math.random() * list.length);
   const oLottery = new LotteryList({
     element: ".lottery",
     list,
     btnText: "开始",
-    onend: (e) => {
+    onend: (e: any) => {
       emit("showResult", e.label);
     },
     onsubmit: () => {
@@ -64,6 +64,16 @@ onMounted(() => {
     .lottery__list {
       .lattice__lottery__item {
         margin-bottom: 10px !important;
+        & > .prize__item__mask {
+          background-color: #C94E68;
+          opacity: 0.6;
+        }
+      }
+    }
+    .lottery__btn {
+      .lattice__lottery__btn {
+        background-color: #5fa4e8;
+        border-radius: 50%;
       }
     }
   }

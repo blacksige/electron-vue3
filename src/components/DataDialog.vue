@@ -1,5 +1,6 @@
 <style lang="less" scoped>
 .data-dialog {
+
 }
 </style>
 
@@ -8,9 +9,11 @@
     <el-dialog
       v-model="dialogVisible"
       title="信息录入"
-      :width="minSize ? '90%' : '650'"
+      :width="minSize ? '100%' : '650'"
       :close-on-click-modal="false"
       v-loading="loading"
+      align-center
+      :fullscreen="minSize"
     >
       <el-alert
         title="注意：每条数据以回车结束"

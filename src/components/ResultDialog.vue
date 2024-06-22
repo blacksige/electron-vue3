@@ -8,7 +8,9 @@
     <el-dialog
       v-model="dialogVisible"
       title="历史记录"
-      :width="!minSize ? '90%' : '650'"
+      :width="minSize ? '100%' : '650'"
+      align-center
+      :fullscreen="minSize"
     >
       <el-table :data="gridData" :loading="tableLoading">
         <el-table-column property="index" label="Index" />
