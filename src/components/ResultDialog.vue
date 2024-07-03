@@ -13,7 +13,7 @@
       :fullscreen="minSize"
     >
       <el-table :data="gridData" :loading="tableLoading">
-        <el-table-column property="index" label="Index" />
+        <el-table-column property="index" width="80" label="Index" />
         <el-table-column property="name" label="Name" />
         <el-table-column property="day" label="Day" />
       </el-table>
