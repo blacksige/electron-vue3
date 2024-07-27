@@ -34,7 +34,9 @@ const eventEmit = (num) => {
   } else if (num === '2') {
     resultDialog.value.showDialog();
   } else if (num === '3') {
+    isShowBtn.value = false;
     isShowLottery.value = false;
+    dataDialog.value.showDialog();
   }
 }
 
