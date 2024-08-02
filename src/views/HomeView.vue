@@ -64,7 +64,7 @@ const showResult = (name) => {
       isShowLottery.value = false
       history.setHistory({
         name: name,
-        day: dayjs().format("YYYY/MM/DD")
+        day: dayjs().format("YYYY/MM/DD HH:mm")
       }).then(res => () => {
         console.log(res);
       })
