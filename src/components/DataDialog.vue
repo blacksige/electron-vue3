@@ -58,8 +58,9 @@ const showDialog = () => {
   enterdata
     .queryEnterData({})
     .then((res) => {
+
       if (res.code === 200) {
-        textarea.value = res.data.textarea;
+        textarea.value = res.data[0]?.textarea || '';
       }
     })
     .finally(() => {

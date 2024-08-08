@@ -14,8 +14,8 @@ module.exports = defineConfig({
     port: 9090,
     proxy: {
       '/nodeapp': {
-        target: 'http://10.100.0.68:3000',
-        pathRewrite: { '^/nodeapp/': '/' },
+        target: 'http://8.140.62.241:3000',
+        // pathRewrite: { '^/nodeapp/': '/' },
       }
     }
   }

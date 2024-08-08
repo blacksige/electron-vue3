@@ -41,7 +41,7 @@ app.get(`${baseurl}/history/getHistory`, (req, res) => {
         res.send({
           code: 200,
           msg: '数据获取成功',
-          data
+          data: data || []
         })
       }
     });
@@ -65,6 +65,7 @@ app.post(`${baseurl}/history/setHistory`, (req, res) => {
         res.send({
           code: 200,
           msg: '数据更新成功',
+          data: []
         })
         console.log(data);
       }
@@ -87,7 +88,7 @@ app.get(`${baseurl}/enterdata/getAllData`, (req, res) => {
         res.send({
           code: 200,
           msg: '数据获取成功',
-          data: data[0] || ''
+          data: data || []
         })
       }
     });
@@ -110,7 +111,8 @@ app.post(`${baseurl}/enterdata/setAllData`, (req, res) => {
       } else {
         res.send({
           code: 200,
-          msg: '数据更新成功'
+          msg: '数据更新成功',
+          data: []
         })
         console.log(data);
       }
@@ -133,7 +135,8 @@ app.post(`${baseurl}/enterdata/deleteData`, (req, res) => {
       } else {
         res.send({
           code: 200,
-          msg: '数据删除成功'
+          msg: '数据删除成功',
+          data: []
         })
         console.log(data);
       }
@@ -155,7 +158,8 @@ app.post(`${baseurl}/history/deleteData`, (req, res) => {
       } else {
         res.send({
           code: 200,
-          msg: '数据删除成功'
+          msg: '数据删除成功',
+          data: []
         })
         console.log(data);
       }

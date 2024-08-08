@@ -11,8 +11,12 @@
       :width="minSize ? '100%' : '650'"
       align-center
       :fullscreen="minSize"
+      stripe
     >
-      <el-table :data="gridData" :loading="tableLoading">
+      <el-table
+        :data="gridData"
+        v-if="!isLoaded"
+      >
         <el-table-column property="index" width="80" label="Index" />
         <el-table-column property="name" label="Name" />
         <el-table-column property="day" label="Day" />
@@ -35,25 +39,34 @@ import history from "@/api/history.js";
 const { minSize } = HomeHooks();
 const emit = defineEmits(["getValue"]);
 const dialogVisible = ref(false);
-const tableLoading = ref(false);
+const isLoaded = ref(true);
 let gridData = null;
+const svg = `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `;
 
 const showDialog = () => {
   dialogVisible.value = true;
-  tableLoading.value = false;
+  isLoaded.value = true;
   history
     .queryHistory({})
     .then((res) => {
-      gridData = reactive(initResultData(res.data));
-      console.log(gridData);
+      initResultData(res.data);
     })
     .finally(() => {
-      tableLoading.value = true;
+      isLoaded.value = false;
     });
 };
 
 const closeDialog = () => {
-  gridData = [];
+  gridData.length = 0;
   dialogVisible.value = false;
 };
 
@@ -67,12 +80,14 @@ const resetData = () => {
 };
 
 const initResultData = (data: any = []) => {
-  return data.map((item, index) => {
-    return {
-      index: index + 1,
-      ...item
-    };
-  });
+  gridData = reactive(
+    data.map((item, index) => {
+      return {
+        ...item,
+        index: index + 1,
+      };
+    })
+  );
 };
 
 defineExpose({ showDialog });
